@@ -1,0 +1,15 @@
+#! /usr/bin/env ruby
+
+require 'json'
+require 'yaml'
+
+files=ARGV
+
+files.each do |file|
+  next unless File.exist?(file)
+  outfile = file.sub(/.json$/,".yaml")
+  outfile = file + '.yaml' unless outfile.match(/\.yaml$/)
+  raise "#{outfile} already exists!" if File.exist?(outfile)
+  File.write(outfile,JSON.parse(File.read(file)).to_yaml)
+  puts "Converted: #{outfile}"
+end
